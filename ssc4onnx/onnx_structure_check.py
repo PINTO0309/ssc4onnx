@@ -131,8 +131,12 @@ def structure_check(
     table = Table()
     table.add_column('OP Type')
     table.add_column('OPs')
-    _ = [table.add_row(key, str(model_info.op_nums[key])) for key in sorted(list(set(model_info.op_nums.keys())))]
+    sorted_list = sorted(list(set(model_info.op_nums.keys())))
+    _ = [table.add_row(key, str(model_info.op_nums[key])) for key in sorted_list]
     table.add_row('----------------------', '----------')
+    ops_count = sum([model_info.op_nums[key] for key in sorted_list])
+    table.add_row('Total number of OPs', str(ops_count))
+    table.add_row('======================', '==========')
     table.add_row('Model Size', human_readable_size(model_info.model_size))
     rich_print(table)
     print(\
