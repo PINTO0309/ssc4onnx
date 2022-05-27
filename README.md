@@ -134,6 +134,8 @@ structure_check(
 │ Model Size             │ 37.2MiB    │
 └────────────────────────┴────────────┘
 INFO: file: deqflow_b_things_opset12_192x320.onnx
+INFO: producer: pytorch 1.11.0
+INFO: opset: 12
 INFO: input_name.1: input1 shape: [1, 3, 192, 320] dtype: float32
 INFO: input_name.2: input2 shape: [1, 3, 192, 320] dtype: float32
 INFO: output_name.1: flow_up shape: [1, 2, 192, 320] dtype: float32

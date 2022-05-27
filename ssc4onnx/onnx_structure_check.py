@@ -143,6 +143,22 @@ def structure_check(
         f'{Color.GREEN}INFO:{Color.RESET} '+ \
         f'{Color.BLUE}file:{Color.RESET} {input_onnx_file_path}'
     )
+    producer_name = ''
+    if hasattr(onnx_graph, 'producer_name'):
+        producer_name = onnx_graph.producer_name
+    producer_version = ''
+    if hasattr(onnx_graph, 'producer_version'):
+        producer_version = onnx_graph.producer_version
+    if producer_name:
+        print(\
+            f'{Color.GREEN}INFO:{Color.RESET} '+ \
+            f'{Color.BLUE}producer:{Color.RESET} {producer_name} {producer_version}'
+        )
+    if hasattr(onnx_graph, 'opset_import') and len(onnx_graph.opset_import) > 0:
+        print(\
+            f'{Color.GREEN}INFO:{Color.RESET} '+ \
+            f'{Color.BLUE}opset:{Color.RESET} {onnx_graph.opset_import[0].version}'
+        )
     for idx, ort_input_name, ort_input_shape, onnx_input_type in zip(range(1, len(ort_input_names)+1), ort_input_names, ort_input_shapes, onnx_input_types):
         print(\
             f'{Color.GREEN}INFO:{Color.RESET} '+ \
