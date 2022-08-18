@@ -98,33 +98,34 @@ def structure_check(
     if not onnx_graph:
         onnx_graph = onnx.load(input_onnx_file_path)
 
-    onnx_session = onnxruntime.InferenceSession(
-        input_onnx_file_path,
-        providers=['CPUExecutionProvider'],
-    )
+    if input_onnx_file_path != '':
+        onnx_session = onnxruntime.InferenceSession(
+            input_onnx_file_path,
+            providers=['CPUExecutionProvider'],
+        )
 
-    # Generation of dict for onnxruntime input
-    ort_inputs = onnx_session.get_inputs()
-    ort_outputs = onnx_session.get_outputs()
-    onnx_inputs = onnx_graph.graph.input
-    onnx_outputs = onnx_graph.graph.output
+        # Generation of dict for onnxruntime input
+        ort_inputs = onnx_session.get_inputs()
+        ort_outputs = onnx_session.get_outputs()
+        onnx_inputs = onnx_graph.graph.input
+        onnx_outputs = onnx_graph.graph.output
 
-    ort_input_names = [
-        ort_input.name for ort_input in ort_inputs
-    ]
-    ort_output_names = [
-        ort_output.name for ort_output in ort_outputs
-    ]
+        ort_input_names = [
+            ort_input.name for ort_input in ort_inputs
+        ]
+        ort_output_names = [
+            ort_output.name for ort_output in ort_outputs
+        ]
 
-    ort_input_shapes = [ort_input.shape for ort_input in ort_inputs]
-    ort_output_shapes = [ort_output.shape for ort_output in ort_outputs]
+        ort_input_shapes = [ort_input.shape for ort_input in ort_inputs]
+        ort_output_shapes = [ort_output.shape for ort_output in ort_outputs]
 
-    onnx_input_types = [
-        ONNX_DTYPES_TO_NUMPY_DTYPES[f'{onnx_input.type.tensor_type.elem_type}'] for onnx_input in onnx_inputs
-    ]
-    onnx_output_types = [
-        ONNX_DTYPES_TO_NUMPY_DTYPES[f'{onnx_output.type.tensor_type.elem_type}'] for onnx_output in onnx_outputs
-    ]
+        onnx_input_types = [
+            ONNX_DTYPES_TO_NUMPY_DTYPES[f'{onnx_input.type.tensor_type.elem_type}'] for onnx_input in onnx_inputs
+        ]
+        onnx_output_types = [
+            ONNX_DTYPES_TO_NUMPY_DTYPES[f'{onnx_output.type.tensor_type.elem_type}'] for onnx_output in onnx_outputs
+        ]
 
     # Print info
     model_info = ModelInfo(onnx_graph)
@@ -159,21 +160,23 @@ def structure_check(
             f'{Color.GREEN}INFO:{Color.RESET} '+ \
             f'{Color.BLUE}opset:{Color.RESET} {onnx_graph.opset_import[0].version}'
         )
-    for idx, ort_input_name, ort_input_shape, onnx_input_type in zip(range(1, len(ort_input_names)+1), ort_input_names, ort_input_shapes, onnx_input_types):
-        print(\
-            f'{Color.GREEN}INFO:{Color.RESET} '+ \
-            f'{Color.BLUE}input_name.{idx}:{Color.RESET} {ort_input_name} '+ \
-            f'{Color.BLUE}shape:{Color.RESET} {ort_input_shape} '+ \
-            f'{Color.BLUE}dtype:{Color.RESET} {onnx_input_type.__name__}'
-        )
 
-    for idx, ort_output_name, ort_output_shape, onnx_output_type in zip(range(1, len(ort_output_names)+1), ort_output_names, ort_output_shapes, onnx_output_types):
-        print(\
-            f'{Color.GREEN}INFO:{Color.RESET} '+ \
-            f'{Color.BLUE}output_name.{idx}:{Color.RESET} {ort_output_name} '+ \
-            f'{Color.BLUE}shape:{Color.RESET} {ort_output_shape} '+ \
-            f'{Color.BLUE}dtype:{Color.RESET} {onnx_output_type.__name__}'
-        )
+    if input_onnx_file_path != '':
+        for idx, ort_input_name, ort_input_shape, onnx_input_type in zip(range(1, len(ort_input_names)+1), ort_input_names, ort_input_shapes, onnx_input_types):
+            print(\
+                f'{Color.GREEN}INFO:{Color.RESET} '+ \
+                f'{Color.BLUE}input_name.{idx}:{Color.RESET} {ort_input_name} '+ \
+                f'{Color.BLUE}shape:{Color.RESET} {ort_input_shape} '+ \
+                f'{Color.BLUE}dtype:{Color.RESET} {onnx_input_type.__name__}'
+            )
+
+        for idx, ort_output_name, ort_output_shape, onnx_output_type in zip(range(1, len(ort_output_names)+1), ort_output_names, ort_output_shapes, onnx_output_types):
+            print(\
+                f'{Color.GREEN}INFO:{Color.RESET} '+ \
+                f'{Color.BLUE}output_name.{idx}:{Color.RESET} {ort_output_name} '+ \
+                f'{Color.BLUE}shape:{Color.RESET} {ort_output_shape} '+ \
+                f'{Color.BLUE}dtype:{Color.RESET} {onnx_output_type.__name__}'
+            )
     print(f'{Color.GREEN}INFO:{Color.RESET} Finish!')
 
 
