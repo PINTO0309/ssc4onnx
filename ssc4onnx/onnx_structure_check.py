@@ -4,7 +4,7 @@ import sys
 import onnx
 import onnxruntime
 import numpy as np
-from typing import Optional
+from typing import Optional, Dict, Tuple
 from rich.table import Table
 from rich import print as rich_print
 from argparse import ArgumentParser
@@ -69,7 +69,7 @@ class ModelInfo:
 def structure_check(
     input_onnx_file_path: Optional[str] = '',
     onnx_graph: Optional[onnx.ModelProto] = None,
-) -> None:
+) -> Tuple[Dict[str, int], int]:
     """
 
     Parameters
@@ -83,6 +83,13 @@ def structure_check(
         onnx.ModelProto.\n\
         Either input_onnx_file_path or onnx_graph must be specified.\n\
         onnx_graph If specified, ignore input_onnx_file_path and process onnx_graph.
+
+    Returns
+    -------
+    op_num: Dict[str, int]
+        Num of every op
+    model_size: int
+        Model byte size
     """
 
     # Unspecified check for input_onnx_file_path and onnx_graph
@@ -178,6 +185,7 @@ def structure_check(
                 f'{Color.BLUE}dtype:{Color.RESET} {onnx_output_type.__name__}'
             )
     print(f'{Color.GREEN}INFO:{Color.RESET} Finish!')
+    return dict(model_info.op_nums), model_info.model_size
 
 
 def main():

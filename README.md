@@ -53,7 +53,7 @@ Help on function structure_check in module ssc4onnx.onnx_structure_check:
 structure_check(
     input_onnx_file_path: Union[str, NoneType] = '',
     onnx_graph: Union[onnx.onnx_ml_pb2.ModelProto, NoneType] = None
-) -> None
+) -> Tuple[Dict[str, int], int]
 
     Parameters
     ----------
@@ -66,6 +66,13 @@ structure_check(
         onnx.ModelProto.
         Either input_onnx_file_path or onnx_graph must be specified.
         onnx_graph If specified, ignore input_onnx_file_path and process onnx_graph.
+
+    Returns
+    -------
+    op_num: Dict[str, int]
+        Num of every op
+    model_size: int
+        Model byte size
 ```
 
 ## 4. CLI Execution
