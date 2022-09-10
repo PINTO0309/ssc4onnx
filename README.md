@@ -33,13 +33,13 @@ $ ssc4onnx -h
 
 usage:
     ssc4onnx [-h]
-    --input_onnx_file_path INPUT_ONNX_FILE_PATH
+    -if INPUT_ONNX_FILE_PATH
 
 optional arguments:
   -h, --help
         show this help message and exit.
 
-  --input_onnx_file_path INPUT_ONNX_FILE_PATH
+  -if INPUT_ONNX_FILE_PATH, --input_onnx_file_path INPUT_ONNX_FILE_PATH
         Input onnx file path.
 ```
 

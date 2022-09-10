@@ -191,6 +191,7 @@ def structure_check(
 def main():
     parser = ArgumentParser()
     parser.add_argument(
+        '-if',
         '--input_onnx_file_path',
         type=str,
         required=True,
