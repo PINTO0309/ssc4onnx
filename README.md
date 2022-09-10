@@ -28,7 +28,7 @@ $ pip install -U onnx rich \
 https://github.com/PINTO0309/simple-onnx-processing-tools#docker
 
 ## 2. CLI Usage
-```bash
+```
 $ ssc4onnx -h
 
 usage:
