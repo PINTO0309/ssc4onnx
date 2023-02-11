@@ -77,7 +77,7 @@ structure_check(
 
 ## 4. CLI Execution
 ```bash
-$ ssc4onnx --if deqflow_b_things_opset12_192x320.onnx
+$ ssc4onnx -if deqflow_b_things_opset12_192x320.onnx
 ```
 
 ## 5. In-script Execution
