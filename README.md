@@ -90,6 +90,7 @@ structure_check(
 ```
 
 ## 6. Sample
+https://github.com/PINTO0309/ssc4onnx/releases/download/1.0.6/deqflow_b_things_opset12_192x320.onnx
 ![yeuq7-3pab9](https://user-images.githubusercontent.com/33194443/170716241-1b0aaf0d-ea36-4508-b8ba-1e076e648a2e.gif)
 
 ![image](https://github.com/PINTO0309/ssc4onnx/assets/33194443/47e1df9a-46dc-4b1e-8f98-2323e248c7f7)
