@@ -92,61 +92,7 @@ structure_check(
 ## 6. Sample
 ![yeuq7-3pab9](https://user-images.githubusercontent.com/33194443/170716241-1b0aaf0d-ea36-4508-b8ba-1e076e648a2e.gif)
 
-```bash
-┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃ OP Type                ┃ OPs        ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-│ Add                    │ 3907       │
-│ AveragePool            │ 3          │
-│ Cast                   │ 2652       │
-│ Concat                 │ 1983       │
-│ Constant               │ 14992      │
-│ ConstantOfShape        │ 1350       │
-│ Conv                   │ 710        │
-│ Div                    │ 1107       │
-│ Einsum                 │ 353        │
-│ Equal                  │ 1240       │
-│ Expand                 │ 1662       │
-│ Floor                  │ 416        │
-│ Gather                 │ 1411       │
-│ GatherElements         │ 832        │
-│ Greater                │ 832        │
-│ InstanceNormalization  │ 15         │
-│ Less                   │ 832        │
-│ MatMul                 │ 1          │
-│ Mul                    │ 5267       │
-│ Neg                    │ 206        │
-│ Not                    │ 102        │
-│ Pad                    │ 212        │
-│ Range                  │ 206        │
-│ ReduceSum              │ 14         │
-│ Relu                   │ 352        │
-│ Reshape                │ 2410       │
-│ ScatterND              │ 102        │
-│ Shape                  │ 1556       │
-│ Sigmoid                │ 208        │
-│ Slice                  │ 620        │
-│ Softmax                │ 1          │
-│ Split                  │ 208        │
-│ Sqrt                   │ 13         │
-│ Sub                    │ 2446       │
-│ Tanh                   │ 104        │
-│ Tile                   │ 2          │
-│ Transpose              │ 317        │
-│ Unsqueeze              │ 3866       │
-│ Where                  │ 2904       │
-│ ---------------------- │ ---------- │
-│ Total number of OPs    │ 55414      │
-│ ====================== │ ========== │
-│ Model Size             │ 37.2MiB    │
-└────────────────────────┴────────────┘
-INFO: file: deqflow_b_things_opset12_192x320.onnx
-INFO: producer: pytorch 1.11.0
-INFO: opset: 12
-INFO: input_name.1: input1 shape: [1, 3, 192, 320] dtype: float32
-INFO: input_name.2: input2 shape: [1, 3, 192, 320] dtype: float32
-INFO: output_name.1: flow_up shape: [1, 2, 192, 320] dtype: float32
-```
+![image](https://github.com/PINTO0309/ssc4onnx/assets/33194443/47e1df9a-46dc-4b1e-8f98-2323e248c7f7)
 
 ## 7. Reference
 1. https://github.com/onnx/onnx/blob/main/docs/Operators.md
