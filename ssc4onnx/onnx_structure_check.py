@@ -57,7 +57,7 @@ def human_readable_size(num, suffix="B"):
         if abs(num) < 1024.0:
             return f"{num:3.1f}{unit}{suffix}"
         num /= 1024.0
-    return f"{num:.1f}Yi{suffix}"
+    return f"{num:,.1f}Yi{suffix}"
 
 
 class ModelInfo:
@@ -147,10 +147,10 @@ def structure_check(
     table.add_column('OP Type')
     table.add_column('OPs')
     sorted_list = sorted(list(set(model_info.op_nums.keys())))
-    _ = [table.add_row(key, str(model_info.op_nums[key])) for key in sorted_list]
+    _ = [table.add_row(key, f"{model_info.op_nums[key]:,}") for key in sorted_list]
     table.add_row('----------------------', '----------')
     ops_count = sum([model_info.op_nums[key] for key in sorted_list])
-    table.add_row('Total number of OPs', str(ops_count))
+    table.add_row('Total number of OPs', f"{ops_count:,}")
     table.add_row('======================', '==========')
     table.add_row('Model Size', human_readable_size(model_info.model_size))
     rich_print(table)
