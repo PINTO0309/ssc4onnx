@@ -91,9 +91,10 @@ structure_check(
 
 ## 6. Sample
 https://github.com/PINTO0309/ssc4onnx/releases/download/1.0.6/deqflow_b_things_opset12_192x320.onnx
-![yeuq7-3pab9](https://user-images.githubusercontent.com/33194443/170716241-1b0aaf0d-ea36-4508-b8ba-1e076e648a2e.gif)
 
-![image](https://github.com/PINTO0309/ssc4onnx/assets/33194443/47e1df9a-46dc-4b1e-8f98-2323e248c7f7)
+https://github.com/PINTO0309/ssc4onnx/assets/33194443/5ddd242d-41e1-4186-85a7-5306cd410e1d
+
+![image](https://github.com/PINTO0309/ssc4onnx/assets/33194443/0e079a4d-b227-488f-bc4e-cc1b686126ed)
 
 ## 7. Reference
 1. https://github.com/onnx/onnx/blob/main/docs/Operators.md
