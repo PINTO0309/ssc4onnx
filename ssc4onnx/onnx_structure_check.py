@@ -9,6 +9,7 @@ from rich.table import Table
 from rich import print as rich_print
 from argparse import ArgumentParser
 from collections import defaultdict
+import onnx_graphsurgeon as gs
 
 
 class Color:
@@ -67,9 +68,31 @@ class ModelInfo:
     2. Model size
     """
     def __init__(self, model: onnx.ModelProto):
+        gs_graph = gs.import_onnx(model)
         self.op_nums = defaultdict(int)
-        for node in model.graph.node:
-            self.op_nums[node.op_type] += 1
+        self.op_bytesizes = defaultdict(int)
+        self.model_params_size = 0
+        for graph_node in gs_graph.nodes:
+            self.op_nums[graph_node.op] += 1
+            if hasattr(graph_node, 'attrs') \
+                and 'value' in graph_node.attrs \
+                and isinstance(graph_node.attrs['value'].values, np.ndarray):
+                    value: np.ndarray = graph_node.attrs['value'].values
+                    self.op_bytesizes[graph_node.op] += value.nbytes
+                    self.model_params_size += value.nbytes
+            if hasattr(graph_node, 'attrs') \
+                and len(graph_node.attrs) > 0:
+                for key, value in graph_node.attrs.items():
+                    if key != 'value':
+                        self.op_bytesizes[graph_node.op] += sys.getsizeof(value)
+                        self.model_params_size += sys.getsizeof(value)
+            for graph_node_input in graph_node.inputs:
+                if isinstance(graph_node_input, gs.Constant) \
+                    and isinstance(graph_node_input.values, np.ndarray):
+                    self.op_bytesizes[graph_node.op] += graph_node_input.values.nbytes
+                    self.model_params_size += graph_node_input.values.nbytes
+                else:
+                    self.op_bytesizes[graph_node.op] += 0
         self.model_size = model.ByteSize()
 
 
@@ -146,13 +169,15 @@ def structure_check(
     table = Table()
     table.add_column('OP Type')
     table.add_column('OPs')
+    table.add_column('Params')
     sorted_list = sorted(list(set(model_info.op_nums.keys())))
-    _ = [table.add_row(key, f"{model_info.op_nums[key]:,}") for key in sorted_list]
-    table.add_row('----------------------', '----------')
+    sorted_bytes_list = sorted(list(set(model_info.op_bytesizes.keys())))
+    _ = [table.add_row(key1, f"{model_info.op_nums[key1]:,}", f"{human_readable_size(model_info.op_bytesizes[key2])}") for key1, key2 in zip(sorted_list, sorted_bytes_list)]
+    table.add_row('----------------------', '----------', '----------')
     ops_count = sum([model_info.op_nums[key] for key in sorted_list])
     table.add_row('Total number of OPs', f"{ops_count:,}")
-    table.add_row('======================', '==========')
-    table.add_row('Model Size', human_readable_size(model_info.model_size))
+    table.add_row('======================', '==========', '==========')
+    table.add_row('Model Size', human_readable_size(model_info.model_size), human_readable_size(model_info.model_params_size))
     rich_print(table)
     print(\
         f'{Color.GREEN}INFO:{Color.RESET} '+ \
