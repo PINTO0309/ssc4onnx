@@ -21,8 +21,10 @@ $ echo export PATH="~/.local/bin:$PATH" >> ~/.bashrc \
 && source ~/.bashrc
 
 ### run
-$ pip install -U onnx rich \
-&& pip install -U ssc4onnx
+$ pip install -U onnx rich onnxruntime \
+&& pip install -U ssc4onnx \
+&& python -m pip install onnx_graphsurgeon \
+      --index-url https://pypi.ngc.nvidia.com
 ```
 ### 1-2. Docker
 https://github.com/PINTO0309/simple-onnx-processing-tools#docker
