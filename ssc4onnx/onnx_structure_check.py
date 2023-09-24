@@ -72,6 +72,7 @@ class ModelInfo:
         self.op_nums = defaultdict(int)
         self.op_bytesizes = defaultdict(int)
         self.model_params_size = 0
+        self.model_params = 0
         for graph_node in gs_graph.nodes:
             self.op_nums[graph_node.op] += 1
             if hasattr(graph_node, 'attrs') \
@@ -80,6 +81,7 @@ class ModelInfo:
                     value: np.ndarray = graph_node.attrs['value'].values
                     self.op_bytesizes[graph_node.op] += value.nbytes
                     self.model_params_size += value.nbytes
+                    self.model_params += np.prod(value.shape)
             if hasattr(graph_node, 'attrs') \
                 and len(graph_node.attrs) > 0:
                 for key, value in graph_node.attrs.items():
@@ -91,6 +93,7 @@ class ModelInfo:
                     and isinstance(graph_node_input.values, np.ndarray):
                     self.op_bytesizes[graph_node.op] += graph_node_input.values.nbytes
                     self.model_params_size += graph_node_input.values.nbytes
+                    self.model_params += np.prod(graph_node_input.values.shape)
                 else:
                     self.op_bytesizes[graph_node.op] += 0
         self.model_size = model.ByteSize()
@@ -169,13 +172,15 @@ def structure_check(
     table = Table()
     table.add_column('OP Type')
     table.add_column('OPs')
-    table.add_column('Params')
+    table.add_column('Sizes')
     sorted_list = sorted(list(set(model_info.op_nums.keys())))
     sorted_bytes_list = sorted(list(set(model_info.op_bytesizes.keys())))
     _ = [table.add_row(key1, f"{model_info.op_nums[key1]:,}", f"{human_readable_size(model_info.op_bytesizes[key2])}") for key1, key2 in zip(sorted_list, sorted_bytes_list)]
     table.add_row('----------------------', '----------', '----------')
     ops_count = sum([model_info.op_nums[key] for key in sorted_list])
     table.add_row('Total number of OPs', f"{ops_count:,}")
+    table.add_row('----------------------', '----------', '----------')
+    table.add_row('Total params', f"{human_readable_size(model_info.model_params).replace('iB','')}")
     table.add_row('======================', '==========', '==========')
     table.add_row('Model Size', human_readable_size(model_info.model_size), human_readable_size(model_info.model_params_size))
     rich_print(table)
